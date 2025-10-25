@@ -9,7 +9,8 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.enside.water-app"
     },
     "android": {
       "adaptiveIcon": {
@@ -23,7 +24,20 @@
     },
     "web": {
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "pwa": {
+        "favicon": "./assets/images/favicon.png",
+        "name": "WaterWise",
+        "shortName": "WaterWise",
+        "lang": "en",
+        "scope": "/",
+        "themeColor": "#4A90E2",
+        "description": "Track your daily water intake with ease",
+        "backgroundColor": "#F5F7FA",
+        "display": "standalone",
+        "startUrl": "/",
+        "orientation": "portrait"
+      }
     },
     "plugins": [
       "expo-router",
