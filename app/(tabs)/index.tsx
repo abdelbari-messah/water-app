@@ -22,8 +22,8 @@ import { useTheme } from "../../contexts/ThemeContext";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
-const DEFAULT_GOAL = 2000; // 2L in ml
-const DEFAULT_INTERVAL = 2; // hours
+const DEFAULT_GOAL = 2000;
+const DEFAULT_INTERVAL = 2;
 
 export default function Index() {
   const { colors } = useTheme();
