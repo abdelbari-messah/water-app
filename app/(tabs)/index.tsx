@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React, { useEffect, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Modal,
   ScrollView,
@@ -38,6 +39,13 @@ export default function Index() {
   useEffect(() => {
     loadData();
   }, []);
+
+  // Reload data when screen comes into focus
+  useFocusEffect(
+    useCallback(() => {
+      loadData();
+    }, [])
+  );
 
   useEffect(() => {
     const newProgress = Math.min(intake / goal, 1);
@@ -263,60 +271,56 @@ export default function Index() {
 
       <View style={[styles.buttonCard, { backgroundColor: colors.card }]}>
         <View style={styles.buttonContainer}>
-          {customContainers.length > 0 ? (
-            // Show custom containers
-            customContainers.map((size, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[styles.button, { backgroundColor: colors.primary }]}
-                onPress={() => addWater(size)}
-                accessibilityLabel={`Add ${size} milliliters of water`}
-                accessibilityHint={`Increases your daily intake by ${size} milliliters`}
-              >
-                <Ionicons name="water" size={24} color={colors.card} />
-                <Text style={[styles.buttonText, { color: colors.card }]}>
-                  +{size >= 1000 ? `${size / 1000} L` : `${size} ml`}
-                </Text>
-              </TouchableOpacity>
-            ))
-          ) : (
-            // Show default buttons
-            <>
-              <TouchableOpacity
-                style={[styles.button, { backgroundColor: colors.primary }]}
-                onPress={() => addWater(250)}
-                accessibilityLabel="Add 250 milliliters of water"
-                accessibilityHint="Increases your daily intake by 250 milliliters"
-              >
-                <Ionicons name="water" size={24} color={colors.card} />
-                <Text style={[styles.buttonText, { color: colors.card }]}>
-                  +250 ml
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.button, { backgroundColor: colors.primary }]}
-                onPress={() => addWater(500)}
-                accessibilityLabel="Add 500 milliliters of water"
-                accessibilityHint="Increases your daily intake by 500 milliliters"
-              >
-                <Ionicons name="water" size={24} color={colors.card} />
-                <Text style={[styles.buttonText, { color: colors.card }]}>
-                  +500 ml
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.button, { backgroundColor: colors.primary }]}
-                onPress={() => addWater(1000)}
-                accessibilityLabel="Add 1 liter of water"
-                accessibilityHint="Increases your daily intake by 1000 milliliters"
-              >
-                <Ionicons name="water" size={24} color={colors.card} />
-                <Text style={[styles.buttonText, { color: colors.card }]}>
-                  +1 L
-                </Text>
-              </TouchableOpacity>
-            </>
-          )}
+          {/* Always show default buttons */}
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: colors.primary }]}
+            onPress={() => addWater(250)}
+            accessibilityLabel="Add 250 milliliters of water"
+            accessibilityHint="Increases your daily intake by 250 milliliters"
+          >
+            <Ionicons name="water" size={24} color={colors.card} />
+            <Text style={[styles.buttonText, { color: colors.card }]}>
+              +250 ml
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: colors.primary }]}
+            onPress={() => addWater(500)}
+            accessibilityLabel="Add 500 milliliters of water"
+            accessibilityHint="Increases your daily intake by 500 milliliters"
+          >
+            <Ionicons name="water" size={24} color={colors.card} />
+            <Text style={[styles.buttonText, { color: colors.card }]}>
+              +500 ml
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: colors.primary }]}
+            onPress={() => addWater(1000)}
+            accessibilityLabel="Add 1 liter of water"
+            accessibilityHint="Increases your daily intake by 1000 milliliters"
+          >
+            <Ionicons name="water" size={24} color={colors.card} />
+            <Text style={[styles.buttonText, { color: colors.card }]}>
+              +1 L
+            </Text>
+          </TouchableOpacity>
+
+          {/* Show custom containers if any */}
+          {customContainers.map((size, index) => (
+            <TouchableOpacity
+              key={index}
+              style={[styles.button, { backgroundColor: colors.secondary }]}
+              onPress={() => addWater(size)}
+              accessibilityLabel={`Add ${size} milliliters of water`}
+              accessibilityHint={`Increases your daily intake by ${size} milliliters`}
+            >
+              <Ionicons name="water" size={24} color={colors.card} />
+              <Text style={[styles.buttonText, { color: colors.card }]}>
+                +{size >= 1000 ? `${size / 1000} L` : `${size} ml`}
+              </Text>
+            </TouchableOpacity>
+          ))}
         </View>
 
         <View style={styles.actionButtonsContainer}>
